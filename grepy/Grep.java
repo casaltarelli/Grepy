@@ -65,8 +65,7 @@ public class Grep {
         }
 
         input.close();
-
-        return true;
+        return true; // Marks Complete Execution
     }  
 
     /**
@@ -97,8 +96,7 @@ public class Grep {
         }
 
         input.close();
-
-        return true;
+        return true; // Marks Complete Execution
     }
 
     public static void main(String[] args) {
@@ -110,7 +108,7 @@ public class Grep {
          * 3: Input File Name
          */
 
-        // Iterate Through User Input
+        // Iterate Through User Input - Collect User Data
         for (int i = 0; i < args.length; i++) {
             // Check for NFA/DFA Option
             if (userData[2] == null || userData[3] == null) {
@@ -133,6 +131,9 @@ public class Grep {
                 }
             }     
         }
+
+
+        // Create NFA Definition
         
         // TEST: Output Collected Data
         for (int i = 0; i < userData.length; i++) {
