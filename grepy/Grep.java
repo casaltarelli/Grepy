@@ -57,7 +57,7 @@ public class Grep {
                 validating = false;
 
             } else {
-                System.out.println("Invalid Regular Expression. Please try again.");
+                System.out.println("Invalid Regular Expression. Please try again. [e.g ^(01)*1$]");
 
                 exp = input.next();
                 System.out.println("You entered: " + exp);
@@ -89,6 +89,7 @@ public class Grep {
 
             } else {
                 System.out.println("Invalid File Name. Please try again");
+                System.out.println("e.g myfile.txt");
 
                 name = input.next();
                 userFile = new File(name);
@@ -134,7 +135,8 @@ public class Grep {
 
 
         // Create NFA Definition
-        
+        FiveTuple nfa = new FiveTuple(userData[1]);
+
         // TEST: Output Collected Data
         for (int i = 0; i < userData.length; i++) {
             System.out.println(userData[i]);
