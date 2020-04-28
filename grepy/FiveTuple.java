@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -7,9 +8,10 @@ import java.util.Scanner;
  * Created By: Christian Saltarelli
  * Date: 04-25-2020
  * Project: Grepy
+ * File: FiveTuple.java
  * 
  * FiveTuple is used to represent our NFA and DFA machines.
- * Holds all data used to define the automatas.
+ * Holds all data used to define the automatas
  */
 
 public class FiveTuple {
@@ -31,8 +33,7 @@ public class FiveTuple {
     /**
      * readAlphabet(String)
      * - Reads all lines from input File to Learn
-     * the expected Alphabet + Populate alp
-     * 
+     *   the expected Alphabet + Populates alphabet
      */
     public void readAlphabet(String file) {
         try {
@@ -62,7 +63,7 @@ public class FiveTuple {
     /**
      * Getter & Adder Functions
      * - Allows for Reading of Five Tuple
-     * Definition + Adding to Definition
+     *   Definition + Adding to Definition
      */
     public ArrayList<String> getStates() {
         return this.states;
@@ -84,33 +85,67 @@ public class FiveTuple {
         return this.acceptingStates;
     }
 
-    public void AddState() {
+    public int addState() {
         // Find Next Proper State Number
-        int number = this.getStates.size() + 1;
+        int number = this.getStates().size() + 1;
 
         // Add State
-        this.getStates.add("q" + number);
+        this.getStates().add("q" + number);
+
+        // Return New State Index
+        return number;
     }
 
-    public void addDelta(int on, String ch, int next) {
+    public void addDelta(int on, String ch, int nxt) {
         // Create New Transitition
-        String[] transititon = new String[] {"q" + on, ch, "q" + nxt};
+        String[] transition = new String[] {"q" + on, ch, "q" + nxt};
 
         // Add Delta Definition
         this.getDelta().add(transition);
     }
 
-    public void addAccpeting(int index) {
-        String accepting = this.getStates().get(index);
+    public void addAccepting(int index) {
+        String accepting = this.getStates().get(index - 1);
         
         // Add State
-        addAccpet(accepting);
+        this.acceptingStates.add(accepting);
     }
 
-    public void printAlphabet() {
-        for (String temp : this.getAlphabet()) {
-            System.out.print(temp);
+    /**
+     * toString() : String
+     * - Prints full Five Tuple
+     *   definition
+     */
+    public String toString() {
+        String output = "[ ";
+
+        for (String temp : this.getStates()) {
+            output = output + temp;
+            output = output + ", ";
         }
-        System.out.println();
+
+        output = output + "], ["; 
+
+        for (String temp : this.getAlphabet()) {
+            output = output + temp;
+            output = output + ", ";
+        }
+
+        output = output + "], ["; 
+
+        for (String[] arr : this.getDelta()) {
+            output = output + (Arrays.toString(arr));
+            output = output + ", ";
+        }
+
+        output = output + "], [" + start + "], [";
+        
+        for (String temp : this.getAccept()) {
+            output = output + temp;
+            output = output + ", ";
+        }
+
+        output = output + "]";
+        return output;
     }
 }

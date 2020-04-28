@@ -1,13 +1,15 @@
 import java.util.regex.*;
-import java.io.File; 
+import java.io.File;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /** 
  * Created By: Christian Saltarelli
  * Date: 04-18-2020
  * Project: Grepy
+ * File: Grep.java
  * 
- * A Java application to test search a given file and compare its
+ * A Java application to search a given file and compare its
  * data against a given regular expression. This file allows for 
  * the user to use all functionality. While delivering an output
  * of accepted strings and written NFA & DFA files in DOT Language
@@ -46,6 +48,7 @@ public class Grep {
     public static boolean validateRegex(String arg) {
         boolean validating = true;
         Scanner input = new Scanner(System.in);
+        input.useDelimiter(System.lineSeparator());
 
         String exp = arg;
 
@@ -53,6 +56,9 @@ public class Grep {
             // Check for start + end symbols
             if (exp.charAt(0) == '^' && exp.charAt(exp.length() - 1) == '$') {
                 System.out.println("Expression Formatted Correctly");
+
+                // Remove start + end symbols
+                exp = exp.substring(1, exp.length() - 1);
                 userData[0] = exp;
                 validating = false;
 
@@ -61,10 +67,11 @@ public class Grep {
 
                 exp = input.next();
                 System.out.println("You entered: " + exp);
+                
             }
         }
 
-        input.close();
+        input.reset();
         return true; // Marks Complete Execution
     }  
 
@@ -76,6 +83,7 @@ public class Grep {
     public static boolean validateFile(String arg) {
         boolean validating = true;
         Scanner input = new Scanner(System.in);
+        input.useDelimiter(System.lineSeparator());
 
         String name = arg;
         File userFile = new File(name);
@@ -92,7 +100,7 @@ public class Grep {
                 System.out.println("e.g myfile.txt");
 
                 name = input.next();
-                userFile = new File(name);
+                userFile = new File(name);   
             }
         }
 
@@ -109,33 +117,50 @@ public class Grep {
          * 3: Input File Name
          */
 
+         // Check Args
+         if (args.length < 2) {
+             throw new IllegalArgumentException("Fatel Error: Please enter needed arguments");
+         }
+
         // Iterate Through User Input - Collect User Data
         for (int i = 0; i < args.length; i++) {
+            String arg;
+
+            if (args[i] == null) {
+                arg = " ";
+            } else {
+                arg = args[i];
+            }
+
             // Check for NFA/DFA Option
             if (userData[2] == null || userData[3] == null) {
-                if (checkFileName(args[i])) {
+                if (checkFileName(arg)) {
                     continue;
                 }
             }
             
             // Get Regular Expression
             if (userData[0] == null) {
-                if (validateRegex(args[i])) {
+                if (validateRegex(arg)) {
                     continue;
                 } 
             }
 
             // Get File Name
             if (userData[1] == null) {
-                if (validateFile(args[i])) {
+                if (validateFile(arg)) {
                     continue; 
                 }
             }     
         }
 
-
-        // Create NFA Definition
+        // Create FiveTuple + Compute Definition
         FiveTuple nfa = new FiveTuple(userData[1]);
+        NFABuild nfaDef = new NFABuild(nfa, userData[0]);
+        nfaDef.define();
+
+        // TEST: Output NFA Tuple Definition
+        System.out.println(nfaDef.tuple.toString());
 
         // TEST: Output Collected Data
         for (int i = 0; i < userData.length; i++) {

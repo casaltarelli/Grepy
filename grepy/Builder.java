@@ -3,6 +3,7 @@
  * Created By: Christian Saltarelli
  * Date: 04-25-2020
  * Project: Grepy
+ * File: Builder.java
  * 
  * Builder is used as a model for our NFABuild 
  * and DFABuild files. Enforces Structure with 
@@ -11,9 +12,11 @@
  */
 
 public abstract class Builder {
-    public FiveTuple definition; 
+    public FiveTuple tuple; 
 
     public Builder(FiveTuple def) {
-        this.definition = def;
+        this.tuple = def;
     }
+
+    public abstract void define();
 }
