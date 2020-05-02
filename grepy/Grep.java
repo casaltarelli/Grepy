@@ -124,31 +124,23 @@ public class Grep {
 
         // Iterate Through User Input - Collect User Data
         for (int i = 0; i < args.length; i++) {
-            String arg;
-
-            if (args[i] == null) {
-                arg = " ";
-            } else {
-                arg = args[i];
-            }
-
             // Check for NFA/DFA Option
             if (userData[2] == null || userData[3] == null) {
-                if (checkFileName(arg)) {
+                if (checkFileName(args[i])) {
                     continue;
                 }
             }
             
             // Get Regular Expression
             if (userData[0] == null) {
-                if (validateRegex(arg)) {
+                if (validateRegex(args[i])) {
                     continue;
                 } 
             }
 
             // Get File Name
             if (userData[1] == null) {
-                if (validateFile(arg)) {
+                if (validateFile(args[i])) {
                     continue; 
                 }
             }     

@@ -95,10 +95,9 @@ public class NFABuild extends Builder {
 
     /**
      * handleChar(CharObj, CharObj)
-     * - Handles all cases that could happen 
-     *   from when current Char is a 
-     *   Character type. 
-     * 
+     * - Handles all cases when current
+     *   Character is type Character
+     *   e.g a-z, 0-9
      */
     public void handleChar(CharObj cur, CharObj nxt) {
         boolean paranFlag = false;
