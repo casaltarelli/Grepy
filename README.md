@@ -14,7 +14,7 @@ This project is a version of grep utility, developed in java, and known as grepy
 
 ## Usage
 ```bash
-java grepy.Grep [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
+java Grep [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
 ```
 ## Project Status
 This project is currently in development.
