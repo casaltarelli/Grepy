@@ -51,12 +51,12 @@ import java.util.Arrays;
 
         addAccepting();                                                                 // Add Accepting States
 
-        System.out.println("DFA Computation Complete!");
+        System.out.println("DFA Computation Complete");
     }
 
     /**
      * defineHelper() 
-     * - Helper Function to develop(), handles finding all
+     * - Helper Function to define(), handles finding all
      *   Delta transitions and Creating any needed States
      *   for our DFA Definition
      */

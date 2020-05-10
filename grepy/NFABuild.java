@@ -11,11 +11,11 @@
  */
 
 public class NFABuild extends Builder {
-    String expression;                                                           // Regular Expression
+    String expression;                                                                  // Regular Expression
 
-    int curState;                                                                // Current State
-    int prevState;                                                               // Previous State
-    int befState;                                                                // Before State (Special Case)
+    int curState;                                                                       // Current State
+    int prevState;                                                                      // Previous State
+    int befState;                                                                       // Before State (Special Case)
     
     int loopIndex; 
     boolean loopFlag = false;
@@ -54,17 +54,17 @@ public class NFABuild extends Builder {
 
     /**
      * defineHelper()
-     * - Helper function to develop()
+     * - Helper function to define()
      *   moves our current Character marker,
      *   depending on case
      */
     public void defineHelper(String updated, String prev) {
         this.expression = updated;
 
-        if (this.expression.length() >= 2) {                        // General Case
+        if (this.expression.length() >= 2) {                                            // General Case
             define();
-        } else if (this.expression.length() == 1) {                 // Base Case
-            CharObj cur = new CharObj(this.expression.charAt(0));   // Last Character
+        } else if (this.expression.length() == 1) {                                     // Base Case
+            CharObj cur = new CharObj(this.expression.charAt(0));
 
             switch(cur.type) {
                 case "Character":
@@ -125,18 +125,18 @@ public class NFABuild extends Builder {
 
                 } else if (nxt.value.equals("*") && this.expression.indexOf("*") == this.loopIndex) {
                     addDelta(this.curState, cur.value, this.befState);
-                    this.curState = this.befState; // Update Cur State
+                    this.curState = this.befState;
 
                     // Reset Flags + Increase Index
-                    index = index + 1; // Skip Next Char
-                    //this.loopFlag = false; 
+                    index = index + 1;                                                  // Skip Next Char
+                    this.loopFlag = false; 
                     paranFlag = false; 
 
                     break out;  
 
                 } else { // nxt.val.equals("*") && this.loopFlag == false
                     addDelta(this.curState, cur.value, this.curState);
-                    index = index + 1; // Skip Next Char
+                    index = index + 1;                                                  // Skip Next Char
                     break out;
                 }
                 break;

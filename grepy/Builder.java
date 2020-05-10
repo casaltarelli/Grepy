@@ -12,9 +12,9 @@
  */
 
 public abstract class Builder {
-    public FiveTuple tuple; 
+    FiveTuple tuple; 
 
-    public Builder(FiveTuple def) {
+    Builder(FiveTuple def) {
         this.tuple = def;
     }
 

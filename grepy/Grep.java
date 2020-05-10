@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -148,15 +149,28 @@ public class Grep {
         DFABuild determDef = new DFABuild(new FiveTuple(userData[1]), nondetermDef.tuple);
         determDef.define();
 
-        // TEST: Output NFA Tuple Definition
-        System.out.println("NFA Definition: ");
-        System.out.println(nondetermDef.tuple.toString());
-        System.out.println("");
+        // // TEST: Output NFA Tuple Definition
+        // System.out.println("NFA Definition: ");
+        // System.out.println(nondetermDef.tuple.toString());
+        // System.out.println("");
 
-        // TEST: Output NFA Tuple Definition
-        System.out.println("DFA Definition: ");
-        System.out.println(determDef.tuple.toString());
-        System.out.println("");
+        // // TEST: Output NFA Tuple Definition
+        // System.out.println("DFA Definition: ");
+        // System.out.println(determDef.tuple.toString());
+        // System.out.println("");
+
+        Processor processor = new Processor(determDef.tuple);
+
+        try {
+            processor.process(userData[1]);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // TEST: DOT File Outputs
+        DOTBuild dfaDot = new DOTBuild(determDef.tuple, null, "DFA");
+        dfaDot.define();
+        
 
         // TEST: Output Collected Data
         for (int i = 0; i < userData.length; i++) {
