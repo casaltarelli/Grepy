@@ -23,11 +23,10 @@ public class FiveTuple {
     private ArrayList<String> acceptingStates = new ArrayList<String>();
 
     FiveTuple(String inputFile) {
-        this.states.add("q1"); // Create Start State
+        this.states.add("q1");                                                          // Create Start State
         this.start = states.get(0);
 
-        // Define Alphabet
-        readAlphabet(inputFile);
+        readAlphabet(inputFile);                                                        // Define Alphabet
     }
 
     /**
@@ -40,20 +39,19 @@ public class FiveTuple {
             Scanner input = new Scanner(new File(file));
 
             while (input.hasNextLine()) {
-                // Iterate Through Each Line
                 String line = input.nextLine();
+
                 for (int i = 0; i < line.length(); i++) {
                     String temp = Character.toString(line.charAt(i));
                     
                     if (this.getAlphabet().contains(temp)) {
-                        continue; // Check if Char has Been Recorded
+                        continue;                                                       // Check if Char has Been Recorded
                     } else {
-                        this.getAlphabet().add(temp); // Append Otherwise
-                        //printAlphabet();
+                        this.getAlphabet().add(temp);                                   // Append Otherwise
                     }
                 }
             }
-            input.close(); // Close Scanner
+            input.close();                                                              // Close Scanner
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -86,28 +84,19 @@ public class FiveTuple {
     }
 
     public int addState() {
-        // Find Next Proper State Number
         int number = this.getStates().size() + 1;
-
-        // Add State
         this.getStates().add("q" + number);
 
-        // Return New State Index
         return number;
     }
 
     public void addDelta(int on, String ch, int nxt) {
-        // Create New Transitition
         String[] transition = new String[] {"q" + on, ch, "q" + nxt};
-
-        // Add Delta Definition
         this.getDelta().add(transition);
     }
 
     public void addAccepting(int index) {
         String accepting = this.getStates().get(index - 1);
-        
-        // Add State
         this.acceptingStates.add(accepting);
     }
 
@@ -117,35 +106,24 @@ public class FiveTuple {
      *   definition
      */
     public String toString() {
-        String output = "[ ";
+        String output = "{";
 
-        for (String temp : this.getStates()) {
-            output = output + temp;
-            output = output + ", ";
+        output = output 
+            + this.getStates().toString() + ", " + System.getProperty("line.separator")
+            + this.getAlphabet().toString() + ", " + System.getProperty("line.separator") + "{";
+
+        for (int i = 0; i < this.getDelta().size(); i++) {
+            output = output + Arrays.toString(this.getDelta().get(i));
+
+            if (i < this.getDelta().size() - 1) {
+                output = output + ", ";
+            }
         }
 
-        output = output + "], ["; 
-
-        for (String temp : this.getAlphabet()) {
-            output = output + temp;
-            output = output + ", ";
-        }
-
-        output = output + "], ["; 
-
-        for (String[] arr : this.getDelta()) {
-            output = output + (Arrays.toString(arr));
-            output = output + ", ";
-        }
-
-        output = output + "], [" + start + "], [";
+        output = output + "},"  + System.getProperty("line.separator") 
+            + "[" + start + "]," + System.getProperty("line.separator") 
+            + "{" + this.getAccept().toString() + "}}";
         
-        for (String temp : this.getAccept()) {
-            output = output + temp;
-            output = output + ", ";
-        }
-
-        output = output + "]";
         return output;
     }
 }

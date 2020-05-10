@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /** 
  * Created By: Christian Saltarelli
  * Date: 05-2-2020
@@ -5,8 +8,8 @@
  * File: TransitionObj.java
  * 
  * TransitionObj is used for recording
- * all delta transitions for a current state
- * and current character.
+ * all delta transitions for a State
+ * and Character
  * 
  * e.g  State q1
  *      Delta [[q1, 1, q1], [q1, 1, q2]] 
@@ -16,14 +19,32 @@
      String state;
      ArrayList<String[]> delta = new ArrayList<String[]>();
 
-     TransitionObj() {}
+     TransitionObj(String state) {
+         this.state = state;
+     }
 
      public void setState(String state) {
          this.state = state;
      }
 
-     public void addDelta(String on, String ch, String nxt) {
-        String[] transition = new String[] {"q" + on, ch, "q" + nxt};
-        this.delta.add(transition); 
+     public void addDelta(String[] trans) {
+        this.delta.add(trans); 
+     }
+
+     public String[] getDelta(int index) {
+         return delta.get(index);
+     }
+
+     public String toString() {
+        String output = this.state + ": [";
+
+        for (String[] arr : this.delta) {
+            output = output + (Arrays.toString(arr));
+            output = output + ", ";
+        }
+
+        output = output + "]";
+
+        return output;
      }
  }

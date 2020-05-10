@@ -7,10 +7,10 @@
  * 
  * CharObj is used for quick reference
  * of value and character type for
- * our limited syntax.
+ * our limited syntax
  * 
  * e.g Char [a-z, 0-9] or
- * Special [(), *, +]
+ * Special [(, ), *, +]
  */
 
 public class CharObj {

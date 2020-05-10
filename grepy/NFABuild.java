@@ -11,19 +11,18 @@
  */
 
 public class NFABuild extends Builder {
-    public String expression; // Regular Expression
+    String expression;                                                           // Regular Expression
 
-    public int curState;    // Current State
-    public int prevState;   // Previous State
+    int curState;                                                                // Current State
+    int prevState;                                                               // Previous State
+    int befState;                                                                // Before State (Special Case)
     
-    public int befState;    // Before State (Special Case)
-    public boolean loopFlag = false;
-    public String prevChar;
-
-    public int acceptState; 
+    int loopIndex; 
+    boolean loopFlag = false;
+    String prevChar;
 
     NFABuild(FiveTuple def, String exp) {
-        super(def); // Record Five Tuple Definition
+        super(def);
         this.expression = exp;
         this.curState = 1; 
     }
@@ -83,12 +82,12 @@ public class NFABuild extends Builder {
             }
 
             //Update Accepting Set
-            addAccepting();
+            addAccepting(this.curState);
             System.out.println("NFA Computation Complete");
 
         } else {
             //Update Accepting Set
-            addAccepting();
+            addAccepting(this.curState);
             System.out.println("NFA Computation Complete");
         }
     }
@@ -112,10 +111,11 @@ public class NFABuild extends Builder {
             case "Special":
                 out: 
                 if (nxt.value.equals("(")) {
-                    paranFlag = true; 
+                    paranFlag = true;                                                   // Update Flag
 
                     addState();
                     addDelta(this.prevState, cur.value, this.curState);
+
                     this.befState = this.curState;
                     break out;
 
@@ -123,13 +123,13 @@ public class NFABuild extends Builder {
                     this.prevChar = cur.value;
                     break out;
 
-                } else if (nxt.value.equals("*") && this.loopFlag) {
+                } else if (nxt.value.equals("*") && this.expression.indexOf("*") == this.loopIndex) {
                     addDelta(this.curState, cur.value, this.befState);
                     this.curState = this.befState; // Update Cur State
 
                     // Reset Flags + Increase Index
                     index = index + 1; // Skip Next Char
-                    this.loopFlag = false; 
+                    //this.loopFlag = false; 
                     paranFlag = false; 
 
                     break out;  
@@ -146,12 +146,17 @@ public class NFABuild extends Builder {
                 break;
         }
 
-        // After Processing
+        
+        if (this.loopFlag) {                                                            // Update Index for Expected Loop 
+            this.loopIndex = this.loopIndex - index;                                    
+        }  
+
+        // Update Expression
         if (paranFlag) {
-            String newExp = getSubstring(); // Remove Parans
+            String newExp = getSubstring();
             defineHelper(newExp, cur.value);
         } else {
-            String sub = this.expression.substring(index, this.expression.length()); // i + 1
+            String sub = this.expression.substring(index, this.expression.length());
             defineHelper(sub, cur.value);
         }
     }
@@ -171,7 +176,7 @@ public class NFABuild extends Builder {
                 addState();
                 addDelta(this.prevState, this.prevChar, this.curState);
                 addDelta(this.prevState, nxt.value, this.curState);
-                index = index + 1; // Skip Next Char
+                index = index + 1;                                                      // Skip Next Char
                 break;
 
             case "(":
@@ -184,12 +189,16 @@ public class NFABuild extends Builder {
                 break;
         }
 
-        // After Processing
+        if (this.loopFlag) {
+            this.loopIndex = this.loopIndex - index;                                    // Update Index for Expected Loop 
+        }                                      
+
+        // Update Expression
         if (paranFlag) {
-            String newExp = getSubstring(); // Remove Parans
+            String newExp = getSubstring();
             defineHelper(newExp, cur.value);
         } else {
-            String sub = this.expression.substring(index, this.expression.length()); // i + 1
+            String sub = this.expression.substring(index, this.expression.length());
             defineHelper(sub, cur.value);
         }
     }
@@ -209,10 +218,11 @@ public class NFABuild extends Builder {
             if (this.expression.charAt(i) == '(') {
                 for (int j = i; j < this.expression.length(); j++) {
                     if (this.expression.charAt(j) == ')') {  
-                        if (j != this.expression.length() - 1) { // Check if Last Char
+                        if (j != this.expression.length() - 1) {                        // Check if Last Char
                             sub = this.expression.substring(i + 1, j) + this.expression.substring(j + 1);
 
                             if (this.expression.charAt(j+1) == '*') {
+                                this.loopIndex = j - 2;
                                 this.loopFlag = true;
                             }
                             break out;
@@ -231,10 +241,10 @@ public class NFABuild extends Builder {
     }
 
     /**
-     * AddState()
+     * addState()
      * - Updates our PrevState and CurState
      *   markers, also creates new state 
-     *   for tuple definition
+     *   for FiveTuple definition
      */
     public void addState() {
         // Update Previous + Cur
@@ -245,19 +255,18 @@ public class NFABuild extends Builder {
     /**
      * addDelta() 
      * - Creates new delta transition for 
-     *   tuple definition
+     *   FiveTuple definition
      */
     public void addDelta(int on, String ch, int nxt) {
         this.tuple.addDelta(on, ch, nxt);
-        this.acceptState = nxt; // Update Accept Value
     }
 
     /**
      * addAccepting()
      * - Adds accepting state/s to our 
-     *   tuple definition
+     *   FiveTuple definition
      */
-    public void addAccepting() {
-        this.tuple.addAccepting(this.acceptState);
+    public void addAccepting(int state) {
+        this.tuple.addAccepting(state);
     }
 }

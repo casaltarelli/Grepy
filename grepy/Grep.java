@@ -1,4 +1,3 @@
-import java.util.regex.*;
 import java.io.File;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -27,7 +26,6 @@ public class Grep {
     public static boolean checkFileName(String arg) {
         boolean fileStatus = false;
 
-        // Check + Assign File Names
         if (arg.contains("-n")) {
             userData[2] = arg.substring(2, arg.length()).replaceAll("\\s+","");
             fileStatus = true;
@@ -53,12 +51,10 @@ public class Grep {
         String exp = arg;
 
         while (validating) {
-            // Check for start + end symbols
-            if (exp.charAt(0) == '^' && exp.charAt(exp.length() - 1) == '$') {
+            if (exp.charAt(0) == '^' && exp.charAt(exp.length() - 1) == '$') {          // Check for start + end symbols
                 System.out.println("Expression Formatted Correctly");
 
-                // Remove start + end symbols
-                exp = exp.substring(1, exp.length() - 1);
+                exp = exp.substring(1, exp.length() - 1);                               // Remove start + end symbols
                 userData[0] = exp;
                 validating = false;
 
@@ -72,7 +68,7 @@ public class Grep {
         }
 
         input.reset();
-        return true; // Marks Complete Execution
+        return true;                                                                    // Marks Complete Execution
     }  
 
     /**
@@ -89,8 +85,7 @@ public class Grep {
         File userFile = new File(name);
         
         while(validating) {
-            // Check input file exists
-            if (userFile.exists()) {
+            if (userFile.exists()) {                                                    // Check input file exists
                 System.out.println("File is valid");
                 userData[1] = name;
                 validating = false;
@@ -105,7 +100,7 @@ public class Grep {
         }
 
         input.close();
-        return true; // Marks Complete Execution
+        return true;                                                                    // Marks Complete Execution
     }
 
     public static void main(String[] args) {
@@ -119,40 +114,49 @@ public class Grep {
 
          // Check Args
          if (args.length < 2) {
-             throw new IllegalArgumentException("Fatel Error: Please enter needed arguments");
+             throw new IllegalArgumentException("Fatel Error: Please enter needed arguments e.g [NFA Option, DFA Option, REGEX, File]");
          }
 
         // Iterate Through User Input - Collect User Data
-        for (int i = 0; i < args.length; i++) {
-            // Check for NFA/DFA Option
+        for (int i = 0; i < args.length; i++) {                                         // Check for NFA/DFA Option
             if (userData[2] == null || userData[3] == null) {
                 if (checkFileName(args[i])) {
                     continue;
                 }
             }
             
-            // Get Regular Expression
-            if (userData[0] == null) {
+            if (userData[0] == null) {                                                  // Get Regular Expression
                 if (validateRegex(args[i])) {
                     continue;
                 } 
             }
 
-            // Get File Name
-            if (userData[1] == null) {
+            if (userData[1] == null) {                                                  // Get File Name
                 if (validateFile(args[i])) {
                     continue; 
                 }
             }     
         }
 
-        // Create FiveTuple + Compute Definition
-        FiveTuple nfa = new FiveTuple(userData[1]);
-        NFABuild nfaDef = new NFABuild(nfa, userData[0]);
-        nfaDef.define();
+        // Create NFA FiveTuple + Compute Definition
+        //FiveTuple nfa = new FiveTuple(userData[1]);
+        NFABuild nondetermDef = new NFABuild(new FiveTuple(userData[1]), userData[0]);
+        nondetermDef.define();
+
+        // Create DFA FiveTuple + Compute Definition
+        //fiveTuple dfa = new FiveTuple(userDate[1]);
+        DFABuild determDef = new DFABuild(new FiveTuple(userData[1]), nondetermDef.tuple);
+        determDef.define();
 
         // TEST: Output NFA Tuple Definition
-        System.out.println(nfaDef.tuple.toString());
+        System.out.println("NFA Definition: ");
+        System.out.println(nondetermDef.tuple.toString());
+        System.out.println("");
+
+        // TEST: Output NFA Tuple Definition
+        System.out.println("DFA Definition: ");
+        System.out.println(determDef.tuple.toString());
+        System.out.println("");
 
         // TEST: Output Collected Data
         for (int i = 0; i < userData.length; i++) {
