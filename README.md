@@ -2,7 +2,7 @@
 ### Christian Saltarelli
 CMPT 440L-200 - Final Project
 
-This project is a version of grep utility, developed in java, and known as grepy. This program searches files for regular expression pattern matches and produces dot graph file output for the automata used in matching computation.
+This project is a version of grep utility, developed in java, and known as grepy. This program searches files for regular expression pattern matches and produces dot graph file output with PNG representation for the automata used in matching computation.
 
 ## Functionality
 * Learn the alphabet from a given input [FILE]
@@ -11,7 +11,7 @@ This project is a version of grep utility, developed in java, and known as grepy
 * Use [DFA] computation to test each line of the file for accept/reject
 * Output all accepted lines to the user
 * Output the [NFA] and [DFA] to their own files in *DOT Language Format*
-* Option output [NFA] and [DFA] Graphs via graphviz
+* *Option* output [NFA] and [DFA] Graphs via graphviz
 
 ## Usage
 ```bash
