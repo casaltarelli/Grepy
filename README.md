@@ -20,4 +20,4 @@ java Grep [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
 This project is currently in development.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
