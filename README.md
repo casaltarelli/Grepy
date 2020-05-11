@@ -11,10 +11,11 @@ This project is a version of grep utility, developed in java, and known as grepy
 * Use [DFA] computation to test each line of the file for accept/reject
 * Output all accepted lines to the user
 * Output the [NFA] and [DFA] to their own files in *DOT Language Format*
+* Option output NFA and DFA Graphs via graphviz
 
 ## Usage
 ```bash
-java Grep [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
+java Grep [-y] [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
 ```
 ## Project Status
 This project is currently in development.
