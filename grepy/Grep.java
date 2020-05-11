@@ -13,12 +13,31 @@ import java.util.Scanner;
  * data against a given regular expression. This file allows for 
  * the user to use all functionality. While delivering an output
  * of accepted strings and written NFA & DFA files in DOT Language
- * Format
+ * Format with the option for PNG representation of those DOT Files
  */
 
 public class Grep {
-    // Fomatted User Data: [Regular Expression, Input File, NFA File, DFA File]
-    static String[] userData = new String[4];
+    // Fomatted User Data: [Regular Expression, Input File, NFA File, DFA File, PNG Option]
+    static String[] userData = new String[5];
+
+    /**
+     * checkPNG(String)
+     * - Handles PNG Option, only will check
+     *   for yes otherwise defaulted to no.
+     *   This can only be checked once as the
+     *   first argument
+     */
+    public static boolean checkPNG(String arg) {
+        if (arg.contains("-y")) {
+            userData[4] = "yes"; 
+            
+            return true;
+        } else {
+            userData[4] = "no"; 
+
+            return false;
+        } 
+    }
 
     /**
      * checkFileName(String) : Boolean
@@ -37,9 +56,9 @@ public class Grep {
         }   
 
         return fileStatus; 
-   }
+    }
 
-   /**
+    /**
      * validateRegex(String) : Boolean
      * - Handles Regular Expression validation +
      *   invalid input handling
@@ -115,12 +134,18 @@ public class Grep {
 
          // Check Args
          if (args.length < 2) {
-             throw new IllegalArgumentException("Fatel Error: Please enter needed arguments e.g [NFA Option, DFA Option, REGEX, File]");
+             throw new IllegalArgumentException("Fatel Error: Please enter needed arguments e.g [PNG Option, NFA Option, DFA Option, REGEX, File]");
          }
 
         // Iterate Through User Input - Collect User Data
-        for (int i = 0; i < args.length; i++) {                                         // Check for NFA/DFA Option
-            if (userData[2] == null || userData[3] == null) {
+        for (int i = 0; i < args.length; i++) {     
+            if (userData[4] == null) {                                                  // Check for PNG Option
+                if (checkPNG(args[i])) {
+                    continue;
+                }
+            }  
+
+            if (userData[2] == null || userData[3] == null) {                           // Check for NFA/DFA Option
                 if (checkFileName(args[i])) {
                     continue;
                 }
@@ -140,26 +165,15 @@ public class Grep {
         }
 
         // Create NFA FiveTuple + Compute Definition
-        //FiveTuple nfa = new FiveTuple(userData[1]);
-        NFABuild nondetermDef = new NFABuild(new FiveTuple(userData[1]), userData[0]);
-        nondetermDef.define();
+        NFABuild nfaBuild = new NFABuild(new FiveTuple(userData[1]), userData[0]);
+        nfaBuild.define();
 
         // Create DFA FiveTuple + Compute Definition
-        //fiveTuple dfa = new FiveTuple(userDate[1]);
-        DFABuild determDef = new DFABuild(new FiveTuple(userData[1]), nondetermDef.tuple);
-        determDef.define();
+        DFABuild dfaBuild = new DFABuild(new FiveTuple(userData[1]), nfaBuild.tuple);
+        dfaBuild.define();
 
-        // // TEST: Output NFA Tuple Definition
-        // System.out.println("NFA Definition: ");
-        // System.out.println(nondetermDef.tuple.toString());
-        // System.out.println("");
-
-        // // TEST: Output NFA Tuple Definition
-        // System.out.println("DFA Definition: ");
-        // System.out.println(determDef.tuple.toString());
-        // System.out.println("");
-
-        Processor processor = new Processor(determDef.tuple);
+        // Process Given .txt file against defined DFA
+        Processor processor = new Processor(dfaBuild.tuple);
 
         try {
             processor.process(userData[1]);
@@ -167,14 +181,18 @@ public class Grep {
             e.printStackTrace();
         }
 
-        // TEST: DOT File Outputs
-        DOTBuild dfaDot = new DOTBuild(determDef.tuple, null, "DFA");
-        dfaDot.define();
-        
+        // Create DOT Files for our FiveTuple Definitions
+        DOTBuild nfaDOT = new DOTBuild(nfaBuild.tuple, userData[2], "NFA");
+        nfaDOT.define();
 
-        // TEST: Output Collected Data
-        for (int i = 0; i < userData.length; i++) {
-            System.out.println(userData[i]);
+
+        DOTBuild dfaDOT = new DOTBuild(dfaBuild.tuple, userData[3], "DFA");
+        dfaDOT.define();
+
+        // Check PNG Option
+        if (userData[4].equals("yes")) {
+            nfaDOT.toPNG();
+            dfaDOT.toPNG();
         }
     }
 }

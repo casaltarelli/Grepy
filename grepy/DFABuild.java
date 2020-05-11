@@ -170,7 +170,7 @@ import java.util.Arrays;
 
     /**
      * createError()
-     * - Creates an Error State with
+     * - Creates Error State
      *   Delta Transitions for the
      *   current DFA Definition
      */

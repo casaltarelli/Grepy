@@ -44,10 +44,10 @@ public class FiveTuple {
                 for (int i = 0; i < line.length(); i++) {
                     String temp = Character.toString(line.charAt(i));
                     
-                    if (this.getAlphabet().contains(temp)) {
-                        continue;                                                       // Check if Char has Been Recorded
-                    } else {
-                        this.getAlphabet().add(temp);                                   // Append Otherwise
+                    if (this.getAlphabet().contains(temp)) {                            // Check if Char has Been Recorded
+                        continue;                                                       
+                    } else {                                                            // Append Otherwise
+                        this.getAlphabet().add(temp);                                   
                     }
                 }
             }
@@ -102,8 +102,8 @@ public class FiveTuple {
 
     /**
      * toString() : String
-     * - Prints full Five Tuple
-     *   definition
+     * - Creates String of full 
+     *   Five Tuple definition
      */
     public String toString() {
         String output = "{";

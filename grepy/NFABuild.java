@@ -30,7 +30,7 @@ public class NFABuild extends Builder {
     /**
      * define() 
      * - Used to fully define our FiveTuple object
-     *   reads the users regular expression 
+     *   reads the Users regular expression 
      *   character-by-character
      */
     @Override public void define() {
@@ -148,7 +148,7 @@ public class NFABuild extends Builder {
 
         
         if (this.loopFlag) {                                                            // Update Index for Expected Loop 
-            this.loopIndex = this.loopIndex - index;                                    
+            this.loopIndex = this.loopIndex - index;                                   
         }  
 
         // Update Expression
@@ -218,11 +218,11 @@ public class NFABuild extends Builder {
             if (this.expression.charAt(i) == '(') {
                 for (int j = i; j < this.expression.length(); j++) {
                     if (this.expression.charAt(j) == ')') {  
-                        if (j != this.expression.length() - 1) {                        // Check if Last Char
+                        if (j != this.expression.length()) {                            // Check if Last Char
                             sub = this.expression.substring(i + 1, j) + this.expression.substring(j + 1);
 
                             if (this.expression.charAt(j+1) == '*') {
-                                this.loopIndex = j - 2;
+                                this.loopIndex = j - 1;
                                 this.loopFlag = true;
                             }
                             break out;
@@ -230,8 +230,7 @@ public class NFABuild extends Builder {
                         } else {
                             sub = this.expression.substring(i + 1, j);
                             break out;
-                        }          
-                        
+                        }            
                     }
                 }
             }
@@ -247,7 +246,6 @@ public class NFABuild extends Builder {
      *   for FiveTuple definition
      */
     public void addState() {
-        // Update Previous + Cur
         this.prevState = this.curState;
         this.curState = this.tuple.addState();
     }

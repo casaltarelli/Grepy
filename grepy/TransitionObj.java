@@ -23,6 +23,11 @@ import java.util.Arrays;
          this.state = state;
      }
 
+    /**
+     * Getter & Adder Functions
+     * - Allows for Reading of TransitionObj
+     *   + Adding to Definition
+     */
      public void setState(String state) {
          this.state = state;
      }
