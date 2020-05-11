@@ -1,5 +1,8 @@
+package builders;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import structures.FiveTuple;
+import structures.TransitionObj;
 
 /** 
  * Created By: Christian Saltarelli
@@ -20,7 +23,7 @@ import java.util.Arrays;
      String curChar;
 
 
-    DFABuild(FiveTuple dfa, FiveTuple nfa) {
+    public DFABuild(FiveTuple dfa, FiveTuple nfa) {
         super(dfa);
         this.nfa = nfa;
     }

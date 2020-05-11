@@ -1,7 +1,9 @@
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
+import builders.*;
+import structures.FiveTuple;
 
 /** 
  * Created By: Christian Saltarelli
@@ -30,8 +32,8 @@ public class Grep {
     public static boolean checkPNG(String arg) {
         if (arg.contains("-y")) {
             userData[4] = "yes"; 
-            
             return true;
+            
         } else {
             userData[4] = "no"; 
 

@@ -1,3 +1,4 @@
+package structures;
 
 /** 
  * Created By: Christian Saltarelli
@@ -14,10 +15,10 @@
  */
 
 public class CharObj {
-    String value;
-    String type;
+    public String value;
+    public String type;
 
-    CharObj (char val) {
+    public CharObj (char val) {
         this.value = Character.toString(val);
         getType();
     }

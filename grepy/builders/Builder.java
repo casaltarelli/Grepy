@@ -1,3 +1,6 @@
+package builders;
+
+import structures.FiveTuple;
 
 /** 
  * Created By: Christian Saltarelli
@@ -12,7 +15,7 @@
  */
 
 public abstract class Builder {
-    FiveTuple tuple; 
+    public FiveTuple tuple; 
 
     Builder(FiveTuple def) {
         this.tuple = def;

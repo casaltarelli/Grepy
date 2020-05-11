@@ -1,9 +1,12 @@
+package builders;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.InterruptedException;
 import java.io.FileWriter;
 import java.lang.Process;
 import java.lang.Runtime;
+import structures.FiveTuple;
 
 /** 
  * Created By: Christian Saltarelli
@@ -20,7 +23,7 @@ public class DOTBuild extends Builder {
     String file;
     String type;
 
-    DOTBuild(FiveTuple tuple, String file, String type) {
+    public DOTBuild(FiveTuple tuple, String file, String type) {
         super(tuple);
         this.file = file;
         this.type = type;

@@ -1,3 +1,5 @@
+package structures;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
@@ -22,7 +24,7 @@ public class FiveTuple {
     private String start = new String();
     private ArrayList<String> acceptingStates = new ArrayList<String>();
 
-    FiveTuple(String inputFile) {
+    public FiveTuple(String inputFile) {
         this.states.add("q1");                                                          // Create Start State
         this.start = states.get(0);
 
