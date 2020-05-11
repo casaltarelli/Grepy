@@ -36,7 +36,6 @@ public class Grep {
             
         } else {
             userData[4] = "no"; 
-
             return false;
         } 
     }

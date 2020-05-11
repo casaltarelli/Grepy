@@ -8,10 +8,11 @@ import structures.FiveTuple;
  * Project: Grepy
  * File: Builder.java
  * 
- * Builder is used as a model for our NFABuild 
- * and DFABuild files. Enforces Structure with 
- * Children being used for Building NFA and 
- * DFA Definitions
+ * Builder is used as a model for our NFABuild, 
+ * DFABuild, and DOTBuild files. Enforces 
+ * Structure with Children being used 
+ * for Building NFA, DFA Definitions, and
+ * created our DOT Files
  */
 
 public abstract class Builder {

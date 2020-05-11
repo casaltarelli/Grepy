@@ -81,7 +81,7 @@ public class DOTBuild extends Builder {
     public void defineHelper() {
         this.type = this.type.toUpperCase();
 
-        if (this.file == null || this.file.equals("")) {                                                        // Default File Name
+        if (this.file == null || this.file.equals("")) {                                // Default File Name
             this.file = this.type + "Graph.dot";
         } else {                                                                        // Check for Extension
             int lastIndex = this.file.lastIndexOf(".");
