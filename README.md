@@ -18,7 +18,7 @@ This project is a version of grep utility, developed in java, and known as grepy
 java Grep [-y] [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
 ```
 ## Project Status
-This project is currently in development.
+Completed.
 
 ## License
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
