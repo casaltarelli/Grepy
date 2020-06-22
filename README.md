@@ -1,6 +1,6 @@
 # Grepy [java]
 ### Christian Saltarelli
-CMPT 440L-200 - Final Project
+Marist College CMPT 440L-200 - Final Project
 
 This project is a version of grep utility, developed in java, and known as grepy. This program searches files for regular expression pattern matches and produces dot graph file output with PNG representation for the automata used in matching computation.
 
